@@ -29,6 +29,7 @@ namespace DbvBot
             catch
             {
                 MessageBox.Show("Please run DBV client");
+                System.Windows.Forms.Application.Exit();
             }
         }
     }
