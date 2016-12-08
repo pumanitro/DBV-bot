@@ -22,15 +22,24 @@ namespace DbvBot
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Client client = null;
+
             try
             {
                 Process Dbv = Process.GetProcessesByName("DBV")[0];
+                client = new Client(Dbv);
             }
             catch
             {
                 MessageBox.Show("Please run DBV client");
                 System.Windows.Forms.Application.Exit();
             }
+
+            Player player = client.GetPlayer();
+
+            playerName.Text = player.Name;
+
         }
+
     }
 }
