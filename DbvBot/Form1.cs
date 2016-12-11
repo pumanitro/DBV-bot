@@ -8,8 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tibia;
-using Tibia.Objects;
 
 namespace DbvBot
 {
@@ -22,24 +20,27 @@ namespace DbvBot
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Client client = null;
+            
 
-            try
-            {
-                Process Dbv = Process.GetProcessesByName("DBV")[0];
-                client = new Client(Dbv);
-            }
-            catch
-            {
-                MessageBox.Show("Please run DBV client");
-                System.Windows.Forms.Application.Exit();
-            }
+            //client = new Client(Dbv);
+            //MessageBox.Show("Please run DBV client");
+            //System.Windows.Forms.Application.Exit();
 
-            Player player = client.GetPlayer();
 
-            playerName.Text = player.Name;
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            Process Dbv = Process.GetProcessesByName("DBV")[0];
+            IntPtr handle = Dbv.Handle;
+            UInt32 Base = (UInt32)Dbv.MainModule.BaseAddress.ToInt32();
+
+            // heal offset taken by cheat engine Base + 0x231D8C
+
+            //We dont need Base adress bcs ReadInt32 take handle and then he adds offsets to this handle
+            playerName.Text = Memory.ReadInt32(handle, Player.Health).ToString();
+        }
     }
 }
